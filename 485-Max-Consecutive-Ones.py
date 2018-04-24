@@ -1,4 +1,4 @@
-"""My original solution"""
+"""One sample solution"""
 
 class Solution(object):
     def findMaxConsecutiveOnes(self, nums):
@@ -6,17 +6,12 @@ class Solution(object):
         :type nums: List[int]
         :rtype: int
         """
-        start = -1
+        cnt = 0
         maxNum = 0
-        inside = False
-        for i, ni in enumerate(nums):
-            if inside and ni == 0:
-                maxNum = max(maxNum, i-start)
-                inside = False
-            if not inside and ni == 1:
-                start = i
-                inside = True
-        if inside:
-            maxNum = max(maxNum, i-start+1)
-        return maxNum
-        
+        for ni in nums:
+            if ni == 1:
+                cnt += 1
+            else:
+                maxNum = max(maxNum,cnt)
+                cnt = 0
+        return max(maxNum,cnt)
