@@ -3,6 +3,9 @@
 The idea is to recursively call this function
 to get the view of the left sub-tree and right
 sub-tree and compare their views.
+
+Update: another way is to do level order traversal.
+The runtime is still O(n).
 """
 
 # Definition for a binary tree node.
