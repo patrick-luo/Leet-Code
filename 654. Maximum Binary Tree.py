@@ -6,7 +6,7 @@
 #         self.right = None
 
 # Find the max and then break the array in two parts.
-# Then recursively
+# Then recursively  
 
 class Solution(object):
     def constructMaximumBinaryTree(self, nums):
