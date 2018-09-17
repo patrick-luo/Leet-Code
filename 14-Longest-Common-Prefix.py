@@ -15,3 +15,5 @@ class Solution(object):
                     return other[:i]
         return shortest
        
+
+        
