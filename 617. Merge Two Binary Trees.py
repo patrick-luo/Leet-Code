@@ -28,3 +28,5 @@ class Solution(object):
             root.right = self.mergeTrees(t1.right, t2.right)
         return root
             
+
+        
