@@ -11,3 +11,8 @@ class Solution(object):
                 return [memo[target-ni], i]
             else:
                 memo[ni] = i
+
+                
+                
+                
+                
