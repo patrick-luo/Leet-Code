@@ -12,7 +12,3 @@ class Solution(object):
             else:
                 memo[ni] = i
 
-                
-                
-                
-                
