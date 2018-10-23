@@ -1,5 +1,6 @@
 """The idea is the same as problem #15"""
 
+
 class Solution(object):
     def threeSumClosest(self, nums, target):
         """
