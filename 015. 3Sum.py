@@ -7,6 +7,7 @@ Note: in order to de-duplicate, skip the duplicates
 when each pointer is moved. See the comments below.
 """
 
+
 class Solution(object):
     def threeSum(self, nums):
         """
