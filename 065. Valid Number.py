@@ -32,10 +32,11 @@ class Solution(object):
                 return isInt(nums[0], True)
             elif len(nums) == 2:
                 return (nums[0] in ('','+','-') or isInt(nums[0], True)) and isInt(nums[1], False) \
-                    or (isInt(nums[0], True) and nums[1]=='')
+                    or (isInt(nums[0], True) and nums[1]=='') # the last 'or' for case '4.'
             else:
                 return False
         
+        # Main function here
         # First, skip the starting and ending spaces
         # equivalent to s = s.strip()
         i, j = 0, len(s)
