@@ -20,5 +20,5 @@ class Solution(object):
                 if once < 4:
                     return cnt
             else:
-                buf[cnt:n] = tbuf[:4-(cnt+once-n)] # (cnt+once-n) is the overflow number
+                buf[cnt:n] = tbuf[:n-cnt]
                 return n
