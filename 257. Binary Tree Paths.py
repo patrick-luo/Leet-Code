@@ -5,32 +5,23 @@
 #         self.left = None
 #         self.right = None
 
-
 class Solution(object):
     def binaryTreePaths(self, root):
         """
         :type root: TreeNode
         :rtype: List[str]
         """
-        def dfs(res, nodes, root):
+        def dfs(root, path, res):
             if root is None:
                 return
-            nodes.append(root)
+            path.append(str(root.val))
             if root.left is None and root.right is None:
-                res.append(getPath(nodes))
+                res.append('->'.join(path))
             else:
-                dfs(res, nodes, root.left)
-                dfs(res, nodes, root.right)
-            nodes.pop()
-        
-        def getPath(nodes):
-            path = str(nodes[0].val)
-            for n in nodes[1:]:
-                path += '->' + str(n.val)
-            return path
-                
+                dfs(root.left, path, res)
+                dfs(root.right, path, res)
+            path.pop()
         
         res = list()
-        nodes = list()
-        dfs(res, nodes, root)
+        dfs(root, list(), res)
         return res
