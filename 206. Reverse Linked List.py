@@ -4,6 +4,7 @@
 #         self.val = x
 #         self.next = None
 
+# iterative
 class Solution(object):
     def reverseList(self, head):
         """
@@ -21,3 +22,20 @@ class Solution(object):
                 return q
             p, q, r = q, r, r.next
             
+# recursive
+class Solution(object):
+    def reverseList(self, head):
+        """
+        :type head: ListNode
+        :rtype: ListNode
+        """
+        def reverse(head):
+            if head is None or head.next is None:
+                return head, head
+            newHead, tail = reverse(head.next)
+            tail.next = head
+            head.next = None
+            return newHead, head
+        
+        head, tail = reverse(head)
+        return head
