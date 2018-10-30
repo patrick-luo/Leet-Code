@@ -10,17 +10,21 @@ class Solution(object):
         :type lists: List[ListNode]
         :rtype: ListNode
         """
-        head = ListNode(0)
+        if len(lists) == 0:
+            return None
+        if len(lists) == 1:
+            return lists[0]
+        l = self.mergeKLists(lists[:len(lists)/2])
+        r = self.mergeKLists(lists[len(lists)/2:])
+        head = ListNode(None)
         p = head
-        pq = list()
-        for l in lists:
-            if l is not None:
-                heapq.heappush(pq, (l.val, l))
-        while len(pq) > 0:
-            _, cur = heapq.heappop(pq)
-            p.next = cur
+        while l is not None and r is not None:
+            if l.val < r.val:
+                p.next = l
+                l = l.next
+            else:
+                p.next = r
+                r = r.next
             p = p.next
-            cur = cur.next
-            if cur is not None:
-                heapq.heappush(pq, (cur.val, cur))
+        p.next = l if r is None else r
         return head.next
