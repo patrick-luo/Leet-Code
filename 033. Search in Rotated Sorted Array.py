@@ -7,28 +7,34 @@ class Solution(object):
         """
         low, high = 0, len(nums)-1
         while low <= high:
-            mid = low + (high-low)/2
-            if nums[mid] == target:
+            mid = (low+high) / 2
+            if target == nums[mid]:
                 return mid
-            if nums[0] <= nums[mid] <= nums[-1]: # no rotation
-                if nums[mid] < target:
+            
+            # case 1: no rotation
+            if nums[low] <= nums[mid] <= nums[high]:
+                if target < nums[mid]:
+                    high = mid - 1
+                else:
+                    low = mid + 1
+                    
+            # case 2: mid on the left increasing branch
+            elif nums[high] <= nums[low] <= nums[mid]:
+                if target > nums[mid]:
                     low = mid + 1
                 else:
-                    high = mid - 1
-            elif nums[mid] >= nums[0] and nums[mid] > nums[-1]: # mid on the left increasing branch
-                if nums[mid] < target:
-                    low = mid + 1
-                else: # worst case linear search
                     if nums[low] == target:
                         return low
                     else:
                         low += 1
-            elif nums[mid] < nums[0] and nums[mid] <= nums[-1]: # mid on the right increasing branch
-                if nums[mid] > target:
+            # case 3: mid on the right increasing branch
+            elif nums[mid] <= nums[high] <= nums[low]:
+                if target < nums[mid]:
                     high = mid - 1
-                else: # worst case linear search
+                else:
                     if nums[high] == target:
                         return high
                     else:
                         high -= 1
         return -1
+                        
