@@ -4,29 +4,23 @@ class Solution(object):
         :type nums: List[int]
         :rtype: void Do not return anything, modify nums in-place instead.
         """
-        def myReverse(nums, start=0):
-            i, j = start, len(nums)-1
-            while i < j:
-                nums[i], nums[j] = nums[j], nums[i]
-                i += 1
-                j -= 1
-                
+        def findDropIdx(nums):
+            i = len(nums) - 1
+            while i >= 0:
+                if i > 0 and nums[i-1] < nums[i]:
+                    return i-1
+                else:
+                    i -= 1
+            return -1
         
-        if len(nums) <= 1:
+        if len(nums) < 2:
             return
-        i = len(nums)-1
-        while i >= 1:
-            if nums[i-1] < nums[i]:
-                break
-            else:
-                i -= 1
-        if i==0:
-            myReverse(nums)
-            return
-        best = i
-        for j in xrange(i+1, len(nums)):
-            if nums[j] > nums[i-1] and nums[j] < nums[best]:
-                best = j
-        nums[i-1], nums[best] = nums[best], nums[i-1]
-        nums[i:] = sorted(nums[i:])
-        
+        i = findDropIdx(nums)
+        if i == -1:
+            nums.reverse()
+        else:
+            for k, nk in enumerate(nums[i+1:], i+1):
+                if nk > nums[i]:
+                    j = k
+            nums[i], nums[j] = nums[j], nums[i]
+            nums[i+1:] = sorted(nums[i+1:])
