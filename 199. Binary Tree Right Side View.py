@@ -20,3 +20,5 @@ class Solution(object):
         view.extend(rView)
         view.extend(lView[len(rView):])
         return view
+
+    
