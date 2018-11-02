@@ -40,14 +40,14 @@ class Solution(object):
         self.dfs(robot, 0, 0, 0, -1, set())
     
     def dfs(self, robot, x, y, direction_x, direction_y, visited):
+        if (x, y) in visited:
+            return
         robot.clean()
         visited.add((x, y))
         
         for k in range(4):
-            neighbor_x = x + direction_x
-            neighbor_y = y + direction_y
-            if (neighbor_x, neighbor_y) not in visited and robot.move():
-                self.dfs(robot, neighbor_x, neighbor_y, direction_x, direction_y, visited)
+            if robot.move():
+                self.dfs(robot, x+direction_x, y+direction_y, direction_x, direction_y, visited)
                 # the following 3 steps is to return to the original (x, y) position
                 robot.turnLeft()
                 robot.turnLeft()
