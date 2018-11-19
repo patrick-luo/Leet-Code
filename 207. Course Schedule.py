@@ -5,26 +5,21 @@ class Solution(object):
         :type prereq: List[List[int]]
         :rtype: bool
         """
-        links = dict()
-        for c1, c2 in prereq:
-            if c1 not in links:
-                links[c1] = set()
-            links[c1].add(c2)
-            
-        def dfsCyclic(links, c1, visited):
-            if visited[c1]:
+        def find(target, node, graph):
+            if node == target:
                 return True
-            visited[c1] = True
-            if c1 in links:
-                for c2 in links[c1]:
-                    if dfsCyclic(links, c2, visited):
-                        return True
-            visited[c1] = False
-            return False
-                
-            
-        visited = [False] * num
-        for c in links:
-            if dfsCyclic(links, c, visited):
+            else:
+                if node in graph:
+                    for child in graph[node]:
+                        if find(target, child, graph):
+                            return True
                 return False
+        
+        graph = dict()
+        for c1, c2 in prereq:
+            if find(c1, c2, graph):
+                return False
+            if c1 not in graph:
+                graph[c1] = set()
+            graph[c1].add(c2)
         return True
