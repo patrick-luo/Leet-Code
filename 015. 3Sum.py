@@ -7,7 +7,42 @@ Note: in order to de-duplicate, skip the duplicates
 when each pointer is moved. See the comments below.
 """
 
+# a more recent version
+class Solution(object):
+    def threeSum(self, nums):
+        """
+        :type nums: List[int]
+        :rtype: List[List[int]]
+        """
+        ans = list()
+        nums.sort()
+        for i in xrange(len(nums)-2):
+            if i > 0 and nums[i] == nums[i-1]:
+                continue
+            j, k = i+1, len(nums)-1
+            while j < k:
+                ssum = nums[i]+nums[j]+nums[k]
+                if ssum < 0:
+                    j += 1
+                elif ssum > 0:
+                    k -= 1
+                else:
+                    ans.append([nums[i],nums[j],nums[k]])
+                    for x in xrange(j+1, k): # x is the next valid j
+                        if nums[x] != nums[j]:
+                            j = x
+                            break
+                    else: # if no such valid j
+                        break # break the "while j<k" loop
+                    for x in xrange(k-1, j, -1):
+                        if nums[x] != nums[k]:
+                            k = x
+                            break
+                    else:
+                        break
+        return ans
 
+# a previous version
 class Solution(object):
     def threeSum(self, nums):
         """
