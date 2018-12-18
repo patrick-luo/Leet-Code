@@ -4,27 +4,29 @@ class Solution(object):
         :type matrix: List[List[int]]
         :rtype: List[int]
         """
-        if len(matrix) == 0:
-            return list()
-        return self.spiral(matrix, 0, 0, len(matrix)-1, len(matrix[0])-1)
-        
-    def spiral(self, matrix, a, b, x, y):
-        m = x-a+1
-        if m == 0:
-            return list()
-        n = y-b+1
+        n = len(matrix)
         if n == 0:
             return list()
-        if m == 1 or n == 1:
-            return [e for row in matrix[a:x+1] for e in row[b:y+1]]
+        m = len(matrix[0])
+        if m == 0:
+            return list()
         
-        ans = list()
-        for j in xrange(b, y+1):
-            ans.append(matrix[a][j])
-        for i in xrange(a+1, x+1):
-            ans.append(matrix[i][j])
-        for j in xrange(y-1, b-1, -1):
-            ans.append(matrix[i][j])
-        for i in xrange(x-1, a, -1):
-            ans.append(matrix[i][j])
-        return ans + self.spiral(matrix, a+1, b+1, x-1, y-1)
+        def spiral(mat, i, j, x, y):
+            if i > x or j > y:
+                return list()
+            if i == x or j == y:
+                return [e for row in mat[i:x+1] for e in row[j:y+1]]
+            ans = list()
+            for k in xrange(j, y+1):
+                ans.append(mat[i][k])
+            for k in xrange(i+1, x+1):
+                ans.append(mat[k][y])
+            for k in xrange(y-1, j-1, -1):
+                ans.append(mat[x][k])
+            for k in xrange(x-1, i, -1):
+                ans.append(mat[k][j])
+            ans.extend(spiral(mat, i+1, j+1, x-1, y-1))
+            return ans
+            
+        return spiral(matrix, 0, 0, n-1, m-1)
+  
