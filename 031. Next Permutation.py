@@ -4,23 +4,18 @@ class Solution(object):
         :type nums: List[int]
         :rtype: void Do not return anything, modify nums in-place instead.
         """
-        def findDropIdx(nums):
-            i = len(nums) - 1
-            while i >= 0:
-                if i > 0 and nums[i-1] < nums[i]:
-                    return i-1
-                else:
-                    i -= 1
-            return -1
-        
-        if len(nums) < 2:
-            return
-        i = findDropIdx(nums)
-        if i == -1:
-            nums.reverse()
+        for i in xrange(len(nums)-2, -1, -1):
+            if nums[i] < nums[i+1]:
+                break
         else:
-            for k, nk in enumerate(nums[i+1:], i+1):
-                if nk > nums[i]:
-                    j = k
-            nums[i], nums[j] = nums[j], nums[i]
-            nums[i+1:] = sorted(nums[i+1:])
+            nums.sort()
+            return
+        
+        for j in xrange(i+1, len(nums)):
+            if nums[j] <= nums[i]:
+                break
+        else:
+            j += 1
+        nums[i], nums[j-1] = nums[j-1], nums[i]
+        nums[i+1:] = sorted(nums[i+1:])
+        
