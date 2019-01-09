@@ -22,8 +22,8 @@ class Solution(object):
             return s
         
         for i in xrange(len(s), 0, -1):
-            if isPalin(s[:i]):
-                more = list()
+            if isPalin(s[:i]): # check the longest prefix that is palindrome
+                more = list() # then add the rightmore characters reversely to the left
                 for j in xrange(len(s)-1, i-1, -1):
                     more.append(s[j])
                 return ''.join(more) + s
