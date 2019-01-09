@@ -6,24 +6,21 @@
 #         self.right = None
 
 class Solution(object):
-    def __init__(self):
-        self.maxSum = -sys.float_info.max
-    
     def maxPathSum(self, root):
         """
         :type root: TreeNode
         :rtype: int
         """
-        def selfMax(root):
+        self.maxSum = -sys.float_info.max
+        
+        def maxSumRoot(root):
             if root is None:
                 return 0
-            lMax = selfMax(root.left)
-            rMax = selfMax(root.right)
-            lMax = max(0, lMax)
-            rMax = max(0, rMax)
-            self.maxSum = max(self.maxSum, lMax+rMax+root.val)
-            return max(lMax, rMax) + root.val
+            lMax = maxSumRoot(root.left)
+            rMax = maxSumRoot(root.right)
+            self.maxSum = max(self.maxSum, root.val+max([0,lMax,rMax,lMax+rMax]))
+            return root.val + max([0,lMax,rMax])
         
-        selfMax(root)
+        maxSumRoot(root)
         return self.maxSum
         
