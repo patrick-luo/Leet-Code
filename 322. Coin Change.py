@@ -1,5 +1,3 @@
-"""This solution didn't pass, but gives the greedy idea"""
-
 class Solution(object):
     def coinChange(self, coins, amount):
         """
@@ -7,24 +5,9 @@ class Solution(object):
         :type amount: int
         :rtype: int
         """
-        if len(coins) == 0:
-            return -1
-        if amount < 0:
-            return -1
-        coins.sort(reverse=True)
-        
-        def coinRec(coins, amount):
-            if len(coins) == 1:
-                return -1 if amount%coins[0]!=0 else amount/coins[0]
-            cur = coins[0]
-            for i in xrange(amount/cur, 0, -1):
-                nums = coinRec(coins[1:], amount-i*cur)
-                if nums > -1:
-                    return i + nums
-            return coinRec(coins[1:], amount)
-        
-        return coinRec(coins, amount)
-        
-        
-        
-        
+        dp = [0] + [sys.float_info.max]*amount
+        for i in xrange(1, amount+1):
+            for val in coins:
+                if val <= i:
+                    dp[i] = min(dp[i], 1+dp[i-val])
+        return -1 if dp[amount]==sys.float_info.max else dp[amount]
