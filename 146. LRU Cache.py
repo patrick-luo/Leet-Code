@@ -1,11 +1,10 @@
-""" Not sure why 'get' is not working """
-
 class Node(object):
-    def __init__(self, key=None, val=None):
+    def __init__(self, key, val):
         self.key = key
         self.val = val
         self.left = None
         self.right = None
+
 
 class LRUCache(object):
 
@@ -13,12 +12,12 @@ class LRUCache(object):
         """
         :type capacity: int
         """
-        self.head = Node()
-        self.tail = Node()
+        self.cap = capacity
+        self.index = dict() # <key,val>=<key,node>
+        self.head = Node(None, None)
+        self.tail = Node(None, None)
         self.head.right = self.tail
         self.tail.left = self.head
-        self.memo = dict()
-        self.cap = capacity
         
 
     def get(self, key):
@@ -26,25 +25,12 @@ class LRUCache(object):
         :type key: int
         :rtype: int
         """
-        if len(self.memo) == 0 or key not in self.memo:
+        if key not in self.index:
             return -1
-        node = self.memo.get(key)
-        self.refresh(node)
-        return node.val
-    
-    def refresh(self, node):
-        self.delete(node)
-        self.add(node)
-        
-    def add(self, node):
-        node.right = self.head.right
-        self.head.right = node
-        node.right.left = node
-        node.left = self.head
-        
-    def delete(self, node):
-        node.left.right = node.right
-        node.right.left = node.left
+        p = self.index[key]
+        self._delete(p)
+        self._addHead(p)
+        return p.val
         
 
     def put(self, key, value):
@@ -53,16 +39,32 @@ class LRUCache(object):
         :type value: int
         :rtype: void
         """
-        if key in self.memo:
-            memo[key].val = value
-            self.refresh(memo[key])
+        if key in self.index:
+            p = self.index[key]
+            p.val = value
+            self._delete(p)
+            self._addHead(p)
         else:
-            newNode = Node(key, value)
-            self.add(newNode)
-            self.memo[key] = newNode
-            if len(self.memo) > self.cap:
-                self.delete(self.tail.left)
-                del self.memo[self.tail.left.val]
+            if len(self.index) == self.cap:
+                self.index.pop(self.tail.left.key)
+                self._delete(self.tail.left)
+            p = Node(key, value)
+            self._addHead(p)
+            self.index[key] = p
+            
+    def _delete(self, p):
+        q, r = p.left, p.right
+        q.right = r
+        r.left = q
+        p.left, p.right = None, None
+        
+    def _addHead(self, p):
+        q = self.head.right
+        self.head.right = p
+        p.right = q
+        q.left = p
+        p.left = self.head
+                
         
 
 
